@@ -1,0 +1,66 @@
+diff -up cvise-2.9.0/clang_delta/ExpressionDetector.cpp.omv~ cvise-2.9.0/clang_delta/ExpressionDetector.cpp
+--- cvise-2.9.0/clang_delta/ExpressionDetector.cpp.omv~	2024-01-26 01:22:06.017240563 +0100
++++ cvise-2.9.0/clang_delta/ExpressionDetector.cpp	2024-01-26 01:22:43.289641674 +0100
+@@ -134,7 +134,7 @@ bool LocalTmpVarCollector::VisitDeclRefE
+   const VarDecl *VD = dyn_cast<VarDecl>(DRE->getDecl());
+   if (!VD)
+     return true;
+-  if (VD->getName().startswith(Prefix))
++  if (VD->getName().starts_with(Prefix))
+     TmpVars.push_back(VD);
+   return true;
+ }
+@@ -379,7 +379,7 @@ void ExpressionDetector::addOneTempVar(c
+ {
+   if (!VD)
+     return;
+-  if (!VD->getName().startswith(TmpVarNamePrefix))
++  if (!VD->getName().starts_with(TmpVarNamePrefix))
+     return;
+   if (const Expr *E = VD->getInit())
+     ProcessedExprs[VD] = E->IgnoreParenImpCasts();
+@@ -390,9 +390,9 @@ bool ExpressionDetector::refToTmpVar(con
+   StringRef Name = ND->getName();
+   // We don't want to repeatly replace temporary variables
+   // __cvise_expr_tmp_xxx, __cvise_printed_yy and __cvise_checked_zzz.
+-  return Name.startswith(TmpVarNamePrefix) ||
+-         Name.startswith(PrintedVarNamePrefix) ||
+-         Name.startswith(CheckedVarNamePrefix);
++  return Name.starts_with(TmpVarNamePrefix) ||
++         Name.starts_with(PrintedVarNamePrefix) ||
++         Name.starts_with(CheckedVarNamePrefix);
+ }
+ 
+ // Reference: IdenticalExprChecker.cpp from Clang
+@@ -540,8 +540,8 @@ bool ExpressionDetector::isValidExpr(Stm
+       if (const DeclRefExpr *SubE =
+           dyn_cast<DeclRefExpr>(UO->getSubExpr()->IgnoreParenCasts())) {
+         StringRef SubEName = SubE->getDecl()->getName();
+-        if (SubEName.startswith(PrintedVarNamePrefix) ||
+-            SubEName.startswith(CheckedVarNamePrefix))
++        if (SubEName.starts_with(PrintedVarNamePrefix) ||
++            SubEName.starts_with(CheckedVarNamePrefix))
+           return false;
+       }
+     }
+@@ -557,7 +557,7 @@ bool ExpressionDetector::isValidExpr(Stm
+       bool IsLit = SC == Stmt::IntegerLiteralClass ||
+                    SC == Stmt::FloatingLiteralClass;
+       if (IsLit && DRE &&
+-          DRE->getDecl()->getName().startswith(TmpVarNamePrefix) &&
++          DRE->getDecl()->getName().starts_with(TmpVarNamePrefix) &&
+           S->getStmtClass() == Stmt::IfStmtClass) {
+         return false;
+       }
+diff -up cvise-2.9.0/clang_delta/RemoveNamespace.cpp.omv~ cvise-2.9.0/clang_delta/RemoveNamespace.cpp
+--- cvise-2.9.0/clang_delta/RemoveNamespace.cpp.omv~	2024-01-26 01:23:19.506031422 +0100
++++ cvise-2.9.0/clang_delta/RemoveNamespace.cpp	2024-01-26 01:23:23.106070164 +0100
+@@ -969,7 +969,7 @@ void RemoveNamespace::handleOneNamedDecl
+     TransAssert(IdInfo && "Invalid IdentifierInfo!");
+     NewName += IdInfo->getName();
+     // Make sure we have valid suffix for user literals
+-    if (IsUserLiteral && IdInfo->getName().startswith("_")) {
++    if (IsUserLiteral && IdInfo->getName().starts_with("_")) {
+       NewName = "_" + NewName;
+     }
+     NamedDeclToNewName[ND] = NewName;
