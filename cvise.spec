@@ -32,6 +32,7 @@ BuildRequires: llvm-static-devel
 Requires: python%{py_ver}dist(pebble)
 Requires: python%{py_ver}dist(chardet)
 Requires: python%{py_ver}dist(psutil)
+Requires: unifdef
 Recommends: colordiff
 
 %description
