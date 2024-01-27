@@ -3,7 +3,7 @@
 
 Name: cvise
 Version: 2.9.0
-Release: %{?date:0.%{date}.}1
+Release: %{?date:0.%{date}.}2
 %if 0%{?date:1}
 Source0: https://github.com/marxin/cvise/archive/refs/heads/master.tar.gz#/%{name}-%{date}.tar.gz
 %else
@@ -29,6 +29,9 @@ BuildRequires: python%{py_ver}dist(chardet)
 BuildRequires: python%{py_ver}dist(psutil)
 BuildRequires: python%{py_ver}dist(pytest)
 BuildRequires: llvm-static-devel
+Requires: python%{py_ver}dist(pebble)
+Requires: python%{py_ver}dist(chardet)
+Requires: python%{py_ver}dist(psutil)
 Recommends: colordiff
 
 %description
