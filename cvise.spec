@@ -1,17 +1,14 @@
-#define date 20230415
+%define date 20240810
 %global optflags %{optflags} -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name: cvise
-Version: 2.9.0
-Release: %{?date:0.%{date}.}3
+Version: 2.10.1
+Release: %{?date:0.%{date}.}1
 %if 0%{?date:1}
 Source0: https://github.com/marxin/cvise/archive/refs/heads/master.tar.gz#/%{name}-%{date}.tar.gz
 %else
 Source0: https://github.com/marxin/cvise/archive/refs/tags/v%{version}.tar.gz
 %endif
-# LLVM 18 support
-Patch0: https://github.com/marxin/cvise/commit/916e1c5bfbb1364697bbe4f4d4e86657568c44c1.patch
-Patch1:	cvise-2.9.0-llvm-18.patch
 Summary: Tool for creating reduced test cases for compiler bugs
 URL: https://github.com/marxin/cvise
 License: MIT
