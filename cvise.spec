@@ -1,9 +1,9 @@
-%define date 20240810
+%define date 20250611
 %global optflags %{optflags} -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name: cvise
-Version: 2.11.0
-Release: %{?date:0.%{date}.}2
+Version: 2.11.1%{?date:~%{date}}
+Release: 1
 %if 0%{?date:1}
 Source0: https://github.com/marxin/cvise/archive/refs/heads/master.tar.gz#/%{name}-%{date}.tar.gz
 %else
