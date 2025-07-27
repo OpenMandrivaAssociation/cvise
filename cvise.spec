@@ -1,4 +1,4 @@
-%define date 20250611
+%define date 20250725
 %global optflags %{optflags} -Wno-error=unknown-warning-option -Wno-error=unused-but-set-variable
 
 Name: cvise
@@ -31,6 +31,9 @@ Requires: python%{py_ver}dist(chardet)
 Requires: python%{py_ver}dist(psutil)
 Requires: unifdef
 Recommends: colordiff
+
+%patchlist
+#cvise-llvm-21.patch
 
 %description
 C-Vise is a super-parallel Python port of the C-Reduce. The port is fully
