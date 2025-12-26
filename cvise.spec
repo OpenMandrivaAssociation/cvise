@@ -3,7 +3,7 @@
 
 Name: cvise
 Version: 2.11.1%{?date:~%{date}}
-Release: 2
+Release: 3
 %if 0%{?date:1}
 Source0: https://github.com/marxin/cvise/archive/refs/heads/master.tar.gz#/%{name}-%{date}.tar.gz
 %else
